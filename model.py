@@ -21,7 +21,7 @@ class ResidualBlock(nn.Module):
 
 class Generator(nn.Module):
     """Generator network."""
-    def __init__(self, input_nc=3, n_ds=2, conv_dim=64, c_dim=5, repeat_num=6, ):
+    def __init__(self, input_nc=3, n_ds=2, conv_dim=64, c_dim=5, repeat_num=6, last_activate=nn.Tanh()):
         super(Generator, self).__init__()
 
         layers = []
@@ -48,8 +48,8 @@ class Generator(nn.Module):
             layers.append(nn.ReLU(inplace=True))
             curr_dim = curr_dim // 2
 
-        layers.append(nn.Conv2d(curr_dim, 3, kernel_size=7, stride=1, padding=3, bias=False))
-        layers.append(nn.Tanh())
+        layers.append(nn.Conv2d(curr_dim, input_nc, kernel_size=7, stride=1, padding=3, bias=False))
+        layers.append(last_activate)
         self.main = nn.Sequential(*layers)
 
     def forward(self, x, c):
