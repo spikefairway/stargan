@@ -37,7 +37,7 @@ def main(config):
     
 
     # Solver for training and testing StarGAN.
-    solver = Solver(celeba_loader, rafd_loader, config)
+    solver = Solver(celeba_loader, config)
 
     if config.mode == 'train':
         if config.dataset in ['CelebA', 'RaFD']:
