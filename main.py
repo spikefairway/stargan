@@ -1,7 +1,7 @@
 import os
 import argparse
 from solver import Solver
-from data_loader import get_loader
+from data_loader import get_loader, get_loader_oxford
 from torch.backends import cudnn
 
 
@@ -23,6 +23,7 @@ def main(config):
         os.makedirs(config.result_dir)
 
     # Data loader.
+    '''
     celeba_loader = None
     rafd_loader = None
 
@@ -34,7 +35,16 @@ def main(config):
         rafd_loader = get_loader(config.rafd_image_dir, None, None,
                                  config.rafd_crop_size, config.image_size, config.batch_size,
                                  'RaFD', config.mode, config.num_workers)
-    
+    '''
+    oxford_loader = get_loader_oxford(
+        config.image_dir,
+        config.cond_tab_path,
+        config.selected_attrs,
+        crop_size=config.crop_size,
+        image_size=config.image_size,
+        batch_size=config.batch_size,
+        mode=config.mode
+    )
 
     # Solver for training and testing StarGAN.
     solver = Solver(celeba_loader, config)
@@ -57,8 +67,7 @@ if __name__ == '__main__':
     # Model configuration.
     parser.add_argument('--c_dim', type=int, default=5, help='dimension of domain labels (1st dataset)')
     parser.add_argument('--c2_dim', type=int, default=8, help='dimension of domain labels (2nd dataset)')
-    parser.add_argument('--celeba_crop_size', type=int, default=178, help='crop size for the CelebA dataset')
-    parser.add_argument('--rafd_crop_size', type=int, default=256, help='crop size for the RaFD dataset')
+    parser.add_argument('--crop_size', type=int, default=256, help='crop size for the dataset')
     parser.add_argument('--image_size', type=int, default=128, help='image resolution')
     parser.add_argument('--input_nc', type=int, default=3, help='Number of channels for input dataset')
     parser.add_argument('--n_ds', type=int, default=2, help='number of downsamplings in generator')
@@ -93,9 +102,11 @@ if __name__ == '__main__':
     parser.add_argument('--use_tensorboard', type=str2bool, default=True)
 
     # Directories.
-    parser.add_argument('--celeba_image_dir', type=str, default='data/celeba/images')
+    #parser.add_argument('--celeba_image_dir', type=str, default='data/celeba/images')
     parser.add_argument('--attr_path', type=str, default='data/celeba/list_attr_celeba.txt')
-    parser.add_argument('--rafd_image_dir', type=str, default='data/RaFD/train')
+    #parser.add_argument('--rafd_image_dir', type=str, default='data/RaFD/train')
+    parser.add_argument('--image_dir', type=str, default='data/RaFD/train')
+    parser.add_argument('--cond_tab_path', type=str, default='data/RaFD/train')
     parser.add_argument('--log_dir', type=str, default='stargan/logs')
     parser.add_argument('--model_save_dir', type=str, default='stargan/models')
     parser.add_argument('--sample_dir', type=str, default='stargan/samples')
