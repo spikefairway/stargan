@@ -179,10 +179,7 @@ class Solver(object):
     def train(self):
         """Train StarGAN within a single dataset."""
         # Set data loader.
-        if self.dataset == 'CelebA':
-            data_loader = self.celeba_loader
-        elif self.dataset == 'RaFD':
-            data_loader = self.rafd_loader
+        data_loader = self.data_loader
 
         # Fetch fixed inputs for debugging.
         data_iter = iter(data_loader)
