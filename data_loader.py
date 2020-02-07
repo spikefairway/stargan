@@ -166,3 +166,25 @@ def get_loader_oxford(image_dir, cond_tab_path, selected_attrs, crop_size=256, i
                       batch_size=16, mode='train', num_workers=1):
     """Build and return a data loader for Oxford cat dataset.
     """
+    # Transform
+    transform = []
+    if mode == 'train':
+        transform.append(T.RandomCrop(crop_size))
+        transform.append(T.RandomHorizontalFlip())
+    else:
+        transform.append(T.CenterCrop(crop_size))
+    transform.append(T.Resize(image_size))
+    transform.append(T.ToTensor())
+    transform.append(T.Normalize(mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5)))
+    transform = T.Compose(transform)
+
+    dataset = OxfordCat(image_dir, cond_tab_path, selected_attrs, transform, crop_size=crop_size)
+
+    data_loader = data.DataLoader(
+        dataset=dataset,
+        batch_size=batch_size,
+        shuffle=(mode == 'train'),
+        num_workers=num_workers
+    )
+
+    return data_loader
