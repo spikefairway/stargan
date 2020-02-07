@@ -23,15 +23,32 @@ def main(config):
         os.makedirs(config.result_dir)
 
     # Data loader.
-    # Some codes to make data loader from HDF5 file.
+    celeba_loader = None
+    rafd_loader = None
+
+    if config.dataset in ['CelebA', 'Both']:
+        celeba_loader = get_loader(config.celeba_image_dir, config.attr_path, config.selected_attrs,
+                                   config.celeba_crop_size, config.image_size, config.batch_size,
+                                   'CelebA', config.mode, config.num_workers)
+    if config.dataset in ['RaFD', 'Both']:
+        rafd_loader = get_loader(config.rafd_image_dir, None, None,
+                                 config.rafd_crop_size, config.image_size, config.batch_size,
+                                 'RaFD', config.mode, config.num_workers)
+    
 
     # Solver for training and testing StarGAN.
-    solver = Solver(data_loader, config)
+    solver = Solver(celeba_loader, rafd_loader, config)
 
     if config.mode == 'train':
-        solver.train()
+        if config.dataset in ['CelebA', 'RaFD']:
+            solver.train()
+        elif config.dataset in ['Both']:
+            solver.train_multi()
     elif config.mode == 'test':
-        solver.test()
+        if config.dataset in ['CelebA', 'RaFD']:
+            solver.test()
+        elif config.dataset in ['Both']:
+            solver.test_multi()
 
 
 if __name__ == '__main__':
