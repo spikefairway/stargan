@@ -6,3 +6,4 @@ data/*
 stargan_celeba_128/models/200000-D.ckpt
 stargan_celeba_128/models/200000-G.ckpt
 .DS_Store
+darknet/*
