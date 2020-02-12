@@ -128,9 +128,8 @@ class OxfordCat(data.Dataset):
         img_size_min = np.minimum(*image.size)
         # Add Resize if image_size is smaller than crop_size
         if img_size_min < self.crop_size:
-            frac = float(self.crop_size) / img_size_min
             transform = T.Compose([
-                T.Resize(frac),
+                T.Resize(self.crop_size),
                 transform
             ])
 
