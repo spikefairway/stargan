@@ -5,4 +5,3 @@ __pycache__/solver.cpython-37.pyc
 data/*
 stargan_celeba_128/models/200000-D.ckpt
 stargan_celeba_128/models/200000-G.ckpt
-test_data_loader_oxford.ipynb

@@ -7,6 +7,7 @@ import os
 import random
 import pandas as pd
 import numpy as np
+import pdb
 
 
 class CelebA(data.Dataset):
@@ -172,6 +173,7 @@ def get_loader_oxford(image_dir, cond_tab_path, selected_attrs, crop_size=256, i
         transform.append(T.RandomHorizontalFlip())
     else:
         transform.append(T.CenterCrop(crop_size))
+    #pdb.set_trace()
     transform.append(T.Resize(image_size))
     transform.append(T.ToTensor())
     transform.append(T.Normalize(mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5)))
