@@ -110,12 +110,13 @@ class OxfordCat(data.Dataset):
 
         # Condition matrix
         self.cond_mat = cond_tab.loc[:, selected_attrs].values
+        pdb.set_trace()
 
         print('Finished preprocessing the Oxford Cat dataset')
 
     def __getitem__(self, idx):
         img_path = self.img_path_list[idx]
-        c = self.cond_mat[[idx], :]
+        c = self.cond_mat[idx, :]
         transform = self.transform
 
         image = Image.open(img_path)

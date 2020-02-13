@@ -216,6 +216,7 @@ class Solver(object):
                 x_real, label_org = next(data_iter)
 
             # Generate target domain labels randomly.
+            pdb.set_trace()
             rand_idx = torch.randperm(label_org.size(0))
             label_trg = label_org[rand_idx]
 
