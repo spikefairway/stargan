@@ -110,7 +110,6 @@ class OxfordCat(data.Dataset):
 
         # Condition matrix
         self.cond_mat = cond_tab.loc[:, selected_attrs].values
-        pdb.set_trace()
 
         print('Finished preprocessing the Oxford Cat dataset')
 

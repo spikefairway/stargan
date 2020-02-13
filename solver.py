@@ -174,7 +174,7 @@ class Solver(object):
     def classification_loss(self, logit, target, dataset='CelebA'):
         """Compute binary or softmax cross entropy loss."""
         if dataset in ['CelebA', 'Oxford']:
-            return F.binary_cross_entropy_with_logits(logit, target, size_average=False) / logit.size(0)
+            return F.binary_cross_entropy_with_logits(logit, target, reduction='sum') / logit.size(0)
         elif dataset == 'RaFD':
             return F.cross_entropy(logit, target)
 
@@ -216,7 +216,6 @@ class Solver(object):
                 x_real, label_org = next(data_iter)
 
             # Generate target domain labels randomly.
-            pdb.set_trace()
             rand_idx = torch.randperm(label_org.size(0))
             label_trg = label_org[rand_idx]
 
