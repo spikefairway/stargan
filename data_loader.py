@@ -156,17 +156,14 @@ def get_loader(image_dir, attr_path, selected_attrs, crop_size=178, image_size=1
                                   num_workers=num_workers)
     return data_loader
 
-def get_loader_oxford(cond_tab_path, selected_attrs, crop_size=256, image_size=128,
+def get_loader_oxford(cond_tab_path, selected_attrs, image_size=128,
                       batch_size=16, mode='train', num_workers=1):
     """Build and return a data loader for Oxford cat dataset.
     """
     # Transform
     transform = []
     if mode == 'train':
-        transform.append(T.RandomCrop(crop_size))
         transform.append(T.RandomHorizontalFlip())
-    else:
-        transform.append(T.CenterCrop(crop_size))
     #pdb.set_trace()
     transform.append(T.Resize(image_size))
     transform.append(T.ToTensor())
