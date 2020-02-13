@@ -29,8 +29,8 @@ def main(config):
     '''
 
     if config.dataset in ['CelebA']:
-        data_loader = get_loader(config.celeba_image_dir, config.attr_path, config.selected_attrs,
-                                   config.celeba_crop_size, config.image_size, config.batch_size,
+        data_loader = get_loader(config.image_dir, config.attr_path, config.selected_attrs,
+                                   config.crop_size, config.image_size, config.batch_size,
                                    'CelebA', config.mode, config.num_workers)
     if config.dataset in ['RaFD']:
         data_loader = get_loader(config.rafd_image_dir, None, None,
@@ -39,7 +39,6 @@ def main(config):
 
     if config.dataset in ['Oxford']:
         data_loader = get_loader_oxford(
-            config.image_dir,
             config.cond_tab_path,
             config.selected_attrs,
             crop_size=config.crop_size,

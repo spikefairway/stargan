@@ -73,13 +73,11 @@ class CelebA(data.Dataset):
 class OxfordCat(data.Dataset):
     """Dataset class for cat pictures from Oxford IIIT-PET dataset."""
 
-    def __init__(self, image_dir, cond_tab_path, selected_attrs, transform, crop_size=256):
+    def __init__(self, cond_tab_path, selected_attrs, transform, crop_size=256):
         """Initialize and preprocesss the OxfordCat dataset.
 
         Parameters
         ----------
-        image_dir : string
-            Path for image directory
         cond_tab_path : string
             Path for CSV file including condition information
         selected_attrs : list
@@ -89,7 +87,6 @@ class OxfordCat(data.Dataset):
         crop_size : int
             Size to crop
         """            
-        self.image_dir = image_dir
         self.cond_tab_path = cond_tab_path
         self.selected_attrs = selected_attrs
         self.transform = transform
@@ -159,7 +156,7 @@ def get_loader(image_dir, attr_path, selected_attrs, crop_size=178, image_size=1
                                   num_workers=num_workers)
     return data_loader
 
-def get_loader_oxford(image_dir, cond_tab_path, selected_attrs, crop_size=256, image_size=128,
+def get_loader_oxford(cond_tab_path, selected_attrs, crop_size=256, image_size=128,
                       batch_size=16, mode='train', num_workers=1):
     """Build and return a data loader for Oxford cat dataset.
     """
@@ -176,7 +173,7 @@ def get_loader_oxford(image_dir, cond_tab_path, selected_attrs, crop_size=256, i
     transform.append(T.Normalize(mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5)))
     transform = T.Compose(transform)
 
-    dataset = OxfordCat(image_dir, cond_tab_path, selected_attrs, transform, crop_size=crop_size)
+    dataset = OxfordCat(cond_tab_path, selected_attrs, transform, crop_size=crop_size)
 
     data_loader = data.DataLoader(
         dataset=dataset,

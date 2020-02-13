@@ -8,7 +8,7 @@ import numpy as np
 import os
 import time
 import datetime
-
+import pdb
 
 class Solver(object):
     """Solver for training and testing StarGAN."""
@@ -165,13 +165,15 @@ class Solver(object):
                     c_trg[:, i] = (c_trg[:, i] == 0)  # Reverse attribute value.
             elif dataset == 'RaFD':
                 c_trg = self.label2onehot(torch.ones(c_org.size(0))*i, c_dim)
+            elif dataset == 'Oxford':   # Nothing to do for Oxford dataset.
+                c_trg = c_org.clone()
 
             c_trg_list.append(c_trg.to(self.device))
         return c_trg_list
 
     def classification_loss(self, logit, target, dataset='CelebA'):
         """Compute binary or softmax cross entropy loss."""
-        if dataset == 'CelebA':
+        if dataset in ['CelebA', 'Oxford']:
             return F.binary_cross_entropy_with_logits(logit, target, size_average=False) / logit.size(0)
         elif dataset == 'RaFD':
             return F.cross_entropy(logit, target)
@@ -217,7 +219,7 @@ class Solver(object):
             rand_idx = torch.randperm(label_org.size(0))
             label_trg = label_org[rand_idx]
 
-            if self.dataset == 'CelebA':
+            if self.dataset in ['CelebA', 'Oxford']:
                 c_org = label_org.clone()
                 c_trg = label_trg.clone()
             elif self.dataset == 'RaFD':
