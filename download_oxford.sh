@@ -12,3 +12,7 @@ TAR_FILE=./data/oxford.annotations.tar.gz
 wget -N $URL -O $TAR_FILE
 tar xvzf $TAR_FILE -C $OUTDIR
 rm $TAR_FILE
+
+# Remove invalid? data
+rm ./data/oxford/images/Abyssinian_34.jpg
+rm ./data/oxford/images/Abyssinian_5.jpg
