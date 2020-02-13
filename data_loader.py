@@ -109,10 +109,7 @@ class OxfordCat(data.Dataset):
         cond_tab.reset_index(inplace=True, drop=False)
 
         # Image path list
-        self.img_path_list = [
-            os.path.join(self.image_dir, '.'.join((img_name, 'jpg')))
-            for img_name in cond_tab['ImageName'].values
-        ]
+        self.img_path_list = cond_tab['ImagePath'].values
 
         # Condition matrix
         self.cond_mat = cond_tab.loc[:, selected_attrs].values
