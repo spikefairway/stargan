@@ -88,7 +88,7 @@ if __name__ == '__main__':
     parser.add_argument('--lambda_gp', type=float, default=10, help='weight for gradient penalty')
     
     # Training configuration.
-    parser.add_argument('--dataset', type=str, default='CelebA', choices=['CelebA', 'RaFD', 'Both'])
+    parser.add_argument('--dataset', type=str, default='Oxford', choices=['CelebA', 'RaFD', 'Oxford'])
     parser.add_argument('--batch_size', type=int, default=16, help='mini-batch size')
     parser.add_argument('--num_iters', type=int, default=200000, help='number of total iterations for training D')
     parser.add_argument('--num_iters_decay', type=int, default=100000, help='number of iterations for decaying lr')
@@ -113,8 +113,8 @@ if __name__ == '__main__':
     #parser.add_argument('--celeba_image_dir', type=str, default='data/celeba/images')
     parser.add_argument('--attr_path', type=str, default='data/celeba/list_attr_celeba.txt')
     #parser.add_argument('--rafd_image_dir', type=str, default='data/RaFD/train')
-    parser.add_argument('--image_dir', type=str, default='data/RaFD/train')
-    parser.add_argument('--cond_tab_path', type=str, default='data/RaFD/train')
+    parser.add_argument('--image_dir', type=str, default='data/oxford/images')
+    parser.add_argument('--cond_tab_path', type=str, default='data/oxford/annotations/cond_tab_training.csv')
     parser.add_argument('--log_dir', type=str, default='stargan/logs')
     parser.add_argument('--model_save_dir', type=str, default='stargan/models')
     parser.add_argument('--sample_dir', type=str, default='stargan/samples')
