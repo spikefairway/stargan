@@ -523,10 +523,7 @@ class Solver(object):
         self.restore_model(self.test_iters)
         
         # Set data loader.
-        if self.dataset == 'CelebA':
-            data_loader = self.celeba_loader
-        elif self.dataset == 'RaFD':
-            data_loader = self.rafd_loader
+        data_loader = self.data_loader
         
         with torch.no_grad():
             for i, (x_real, c_org) in enumerate(data_loader):
