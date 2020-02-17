@@ -119,16 +119,31 @@ class OxfordCat(data.Dataset):
         transform = self.transform
 
         image = Image.open(img_path)
+        image_np = np.asarray(image)
 
-        img_size_min = np.minimum(*image.size)
+        # Padding to square
+        w, h = image.size
+        if w == h:
+            image_ = image
+        elif w > h:
+            bg_col = tuple(np.apply_over_axes(np.mean, image_np[:, [0, -1], :], [0, 1]).flatten().astype(np.int))
+            image_ = Image.new(image.mode, (w, w), bg_col)
+            image_.paste(image, (0, (w - h) // 2))
+        else:
+            bg_col = tuple(np.apply_over_axes(np.mean, image_np[[0, -1], :, :], [0, 1]).flatten().astype(np.int))
+            image_ = Image.new(image.mode, (h, h), bg_col)
+            image_.paste(image, ((h - w) // 2, 0))
+        """
         # Add Resize if image_size is smaller than crop_size
+        img_size_min = np.minimum(*image.size)
         if img_size_min < self.crop_size:
             transform = T.Compose([
                 T.Resize(self.crop_size),
                 transform
             ])
+        """
 
-        return transform(image), torch.FloatTensor(c)
+        return transform(image_), torch.FloatTensor(c)
 
     def __len__(self):
         return len(self.img_path_list)
@@ -166,7 +181,6 @@ def get_loader_oxford(cond_tab_path, selected_attrs, image_size=128, crop_size=2
     transform = []
     if mode == 'train':
         transform.append(T.RandomHorizontalFlip())
-    #pdb.set_trace()
     transform.append(T.Resize(image_size))
     transform.append(T.ToTensor())
     transform.append(T.Normalize(mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5)))

@@ -165,8 +165,9 @@ class Solver(object):
                     c_trg[:, i] = (c_trg[:, i] == 0)  # Reverse attribute value.
             elif dataset == 'RaFD':
                 c_trg = self.label2onehot(torch.ones(c_org.size(0))*i, c_dim)
-            elif dataset == 'Oxford':   # Nothing to do for Oxford dataset.
-                c_trg = c_org.clone()
+            elif dataset == 'Oxford':   # Try all conditions
+                c_trg = torch.zeros_like(c_org)
+                c_trg[:, i] = 1
 
             c_trg_list.append(c_trg.to(self.device))
         return c_trg_list
